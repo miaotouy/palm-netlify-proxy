@@ -1,9 +1,11 @@
+# This is an example webapp.io configuration for NodeJS
 FROM vm/ubuntu:18.04
+# To note: Layerfiles create VMs, *not* containers!
 
 # 安装必要的软件包
 RUN apt-get update && apt-get install -y curl
 
-# 安装 Node.js 14.x 版本
+# 安装 Node.js (使用更新的版本，如 14.x)
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash && \
     apt-get install -y nodejs && \
     rm -f /etc/apt/sources.list.d/nodesource.list
@@ -20,8 +22,8 @@ RUN npm install
 # 检查 Node 和 npm 版本
 RUN node -v && npm -v
 
-# 暴露端口（确保应用程序监听此端口）
-EXPOSE 3000
-
 # 启动应用程序
-CMD ["npm", "start"]
+RUN BACKGROUND npm start
+
+# 将应用程序暴露为一个 URL (假设应用运行在3000端口)
+EXPOSE WEBSITE http://localhost:3000
